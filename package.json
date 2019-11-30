@@ -11,10 +11,10 @@
     "custom-element",
     "webcomponents"
   ],
-  "author": "",
   "license": "MIT",
   "devDependencies": {
     "@types/codemirror": "0.0.80",
+    "@types/split.js": "^1.4.0",
     "glob": "^7.1.6",
     "rimraf": "^3.0.0",
     "rollup": "^1.27.0",
@@ -27,5 +27,16 @@
     "serve": "^11.2.0",
     "typescript": "^3.7.2",
     "typescript-plugin-css-modules": "^2.0.2"
+  },
+  "author": {
+    "name": "Benjamin Goodman",
+    "email": "b@thebgoodman.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/b-goodman/split-pane.git"
+  },
+  "dependencies": {
+    "split.js": "^1.5.11"
   }
 }
