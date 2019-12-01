@@ -1,5 +1,5 @@
 {
-  "name": "split-pane",
+  "name": "@bgoodman/split-pane",
   "version": "1.0.0",
   "description": "",
   "main": "./dist/index.js",

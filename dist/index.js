@@ -782,11 +782,20 @@ class SplitPane extends HTMLElement {
         this.handleDragEnd = () => {
             if (this.split) {
                 this.currentPaneSize = this.split.getSizes();
-                window.localStorage.setItem(`${window.location.href}-${this.key}`, JSON.stringify(this.currentPaneSize));
+                if (this.key) {
+                    window.localStorage.setItem(`${window.location.href}-${this.key}`, JSON.stringify(this.currentPaneSize));
+                }
             }
         };
         const paneElements = Array.from(this.children);
-        this.defaultPaneSize = JSON.parse(this.getAttribute("pane-size") || `${new Array(paneElements.length).fill(100 / paneElements.length)}`);
+        const paneSizeAttr = this.getAttribute("pane-size");
+        if (paneSizeAttr) {
+            this.defaultPaneSize = JSON.parse(paneSizeAttr);
+        }
+        else {
+            this.defaultPaneSize = new Array(paneElements.length).fill(100 / paneElements.length);
+            this.setAttribute("pane-size", JSON.stringify(this.defaultPaneSize));
+        }
         this.childNodes.forEach(node => this.removeChild(node));
         const template = document.createElement('template');
         template.innerHTML = `
@@ -843,7 +852,9 @@ class SplitPane extends HTMLElement {
     resetPaneSize() {
         if (this.split) {
             this.currentPaneSize = this.defaultPaneSize;
-            window.localStorage.setItem(`${window.location.href}-${this.key}`, JSON.stringify(this.defaultPaneSize));
+            if (this.key) {
+                window.localStorage.setItem(`${window.location.href}-${this.key}`, JSON.stringify(this.defaultPaneSize));
+            }
         }
     }
     initSplit() {
@@ -861,7 +872,9 @@ class SplitPane extends HTMLElement {
         return this.split;
     }
     loadSessionSizeData() {
-        const sessionData = window.localStorage.getItem(`${window.location.href}-${this.key}`) || undefined;
+        const sessionData = this.key
+            ? window.localStorage.getItem(`${window.location.href}-${this.key}`) || undefined
+            : undefined;
         return sessionData ? JSON.parse(sessionData) : undefined;
     }
 }
