@@ -38,15 +38,15 @@
 }
 
 
-.gutter {
+::slotted(.gutter) {
     background: black;
 }
 
-.split, .gutter.gutter-horizontal {
+::slotted(.split, .gutter.gutter-horizontal) {
     float: left;
 }
 
-.gutter.gutter-horizontal {
+::slotted(.gutter.gutter-horizontal) {
     @extend %centered;
     width: 20px;
     cursor: col-resize;
@@ -56,7 +56,7 @@
     background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
 }
 
-.gutter.gutter-vertical {
+::slotted(.gutter.gutter-vertical) {
     @extend %centered;
     width: 100%;
     cursor: row-resize;

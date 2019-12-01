@@ -769,7 +769,7 @@ var Split = function (idsOption, options) {
     }
 };
 
-var css = ".gutter.gutter-horizontal,.gutter.gutter-vertical{background-position-y:center;background-position-x:center;background-size:auto;background-repeat:no-repeat}:host{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;background:#fff;box-sizing:border-box;height:100%;display:block;margin:0;justify-items:center;align-items:center}#flex{background:inherit}#flex[direction=vertical]{height:100vh;display:flex;flex-direction:column}#flex[direction=horizontal]{display:flex;flex-direction:row;height:100%}#flex *{width:100%}.gutter{background:#000}.gutter.gutter-horizontal,.split{float:left}.gutter.gutter-horizontal{width:20px;cursor:col-resize;flex-basis:10px!important;width:15px;z-index:1;background-image:url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==\")}.gutter.gutter-vertical{width:100%;cursor:row-resize;z-index:1;flex-basis:10px!important;height:15px;background-image:url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=\")}";
+var css = "::slotted(.gutter.gutter-horizontal),::slotted(.gutter.gutter-vertical){background-position-y:center;background-position-x:center;background-size:auto;background-repeat:no-repeat}:host{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;background:#fff;box-sizing:border-box;height:100%;display:block;margin:0;justify-items:center;align-items:center}#flex{background:inherit}#flex[direction=vertical]{height:100vh;display:flex;flex-direction:column}#flex[direction=horizontal]{display:flex;flex-direction:row;height:100%}#flex *{width:100%}::slotted(.gutter){background:#000}::slotted(.split,.gutter.gutter-horizontal){float:left}::slotted(.gutter.gutter-horizontal){width:20px;cursor:col-resize;flex-basis:10px!important;width:15px;z-index:1;background-image:url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==\")}::slotted(.gutter.gutter-vertical){width:100%;cursor:row-resize;z-index:1;flex-basis:10px!important;height:15px;background-image:url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=\")}";
 
 var Direction;
 (function (Direction) {
@@ -801,13 +801,11 @@ class SplitPane extends HTMLElement {
         template.innerHTML = `
             <style>${css}</style>
 
-            <div id="flex" direction="${this.direction}">
-                ${paneElements.map((el) => { return el.outerHTML; }).join("")}
-            </div>
+            <slot id="flex" direction="${this.direction}"></slot>
         `;
         const shadowRoot = this.attachShadow({ mode: 'open' });
         shadowRoot.appendChild(template.content.cloneNode(true));
-        this.paneElements = Array.from(shadowRoot.querySelector("div#flex").children);
+        this.paneElements = Array.from(shadowRoot.querySelector("slot#flex").assignedElements());
         if (!this.getAttribute("direction")) {
             this.setAttribute("direction", this.direction);
         }

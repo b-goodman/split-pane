@@ -32,15 +32,13 @@ export default class SplitPane extends HTMLElement {
         template.innerHTML = `
             <style>${style}</style>
 
-            <div id="flex" direction="${this.direction}">
-                ${paneElements.map( (el) => {return el.outerHTML} ).join("")}
-            </div>
+            <slot id="flex" direction="${this.direction}"></slot>
         `;
 
         const shadowRoot = this.attachShadow({mode: 'open'});
         shadowRoot.appendChild(template.content.cloneNode(true));
 
-        this.paneElements = Array.from(shadowRoot.querySelector<HTMLElement>("div#flex")!.children) as HTMLElement[];
+        this.paneElements = Array.from(shadowRoot.querySelector<HTMLSlotElement>("slot#flex")!.assignedElements()) as HTMLElement[];
 
         if (!this.getAttribute("direction")) {
             this.setAttribute("direction", this.direction)
